@@ -1,0 +1,13 @@
+*.pyc
+
+*.joblib
+
+venv/
+
+__pycache__/
+
+*.pyo
+
+*.pyd
+
+/datasets/
