@@ -111,6 +111,29 @@ class SeasonStats:
         self.a_goals_list = []
         self.a_concede_list = []
 
+        #additions
+        self.h_shots_for = 0
+        self.h_shots_against = 0
+        self.h_sot_for = 0
+        self.h_sot_against = 0
+        self.h_corners_for = 0
+        self.h_corners_against = 0
+        self.h_fouls_for = 0
+        self.h_fouls_against = 0
+        self.h_reds = 0
+        self.h_yellows = 0
+
+        self.a_shots_for = 0
+        self.a_shots_against = 0
+        self.a_sot_for = 0
+        self.a_sot_against = 0
+        self.a_corners_for = 0
+        self.a_corners_against = 0
+        self.a_fouls_for = 0
+        self.a_fouls_against = 0
+        self.a_reds = 0
+        self.a_yellows = 0
+
 
 class Teamstats:
     def __init__(self, team_name):
@@ -142,7 +165,8 @@ class Teamstats:
         self.historical_strength.append(new_season)
         self.games = 0
 
-    def add_game(self, goals_for, goals_against, result, status, date):
+
+    def add_game(self, goals_for, goals_against, shots_for, shots_against, sot_for, sot_against, corners_for, corners_against, fouls_for, fouls_against, reds, yellows, result, status, date):
         self.games += 1
         #result 2: win, 1: draw, 0:loss
         self.last_played = date
@@ -157,6 +181,19 @@ class Teamstats:
                 self.historical_strength[-1].h_wins += 1
             elif result == 1:
                 self.historical_strength[-1].h_draws += 1
+            
+            #additions
+            self.historical_strength[-1].h_shots_for += shots_for
+            self.historical_strength[-1].h_shots_against += shots_against
+            self.historical_strength[-1].h_sot_for += sot_for
+            self.historical_strength[-1].h_sot_against += sot_against
+            self.historical_strength[-1].h_corners_for += corners_for
+            self.historical_strength[-1].h_corners_against += corners_against
+            self.historical_strength[-1].h_fouls_for += fouls_for
+            self.historical_strength[-1].h_fouls_against += fouls_against
+            self.historical_strength[-1].h_reds += reds
+            self.historical_strength[-1].h_yellows += yellows
+
         else:
             self.historical_strength[-1].a_games += 1
             self.historical_strength[-1].a_goals_list.append(goals_for)
@@ -167,6 +204,18 @@ class Teamstats:
                 self.historical_strength[-1].a_wins += 1
             elif result == 1:
                 self.historical_strength[-1].a_draws += 1
+
+            #additions
+            self.historical_strength[-1].a_shots_for += shots_for
+            self.historical_strength[-1].a_shots_against += shots_against
+            self.historical_strength[-1].a_sot_for += sot_for
+            self.historical_strength[-1].a_sot_against += sot_against
+            self.historical_strength[-1].a_corners_for += corners_for
+            self.historical_strength[-1].a_corners_against += corners_against
+            self.historical_strength[-1].a_fouls_for += fouls_for
+            self.historical_strength[-1].a_fouls_against += fouls_against
+            self.historical_strength[-1].a_reds += reds
+            self.historical_strength[-1].a_yellows += yellows
 
         #For form
         self.form_q.append(result)
@@ -193,13 +242,32 @@ class Teamstats:
         h_draws = 0
         h_goals = 0
         h_conceded = 0
+        h_shots_for = 0
+        h_shots_against = 0
+        h_sot_for = 0
+        h_sot_against = 0
+        h_corners_for = 0
+        h_corners_against = 0
+        h_fouls_for = 0
+        h_fouls_against = 0
+        h_reds = 0
+        h_yellows = 0
 
         a_games = 0
         a_wins = 0
         a_draws = 0
         a_goals = 0
         a_conceded = 0
-        
+        a_shots_for = 0
+        a_shots_against = 0
+        a_sot_for = 0
+        a_sot_against = 0
+        a_corners_for = 0
+        a_corners_against = 0
+        a_fouls_for = 0
+        a_fouls_against = 0
+        a_reds = 0
+        a_yellows = 0
 
         for season in self.historical_strength:
             h_goals_list += season.h_goals_list
@@ -210,6 +278,17 @@ class Teamstats:
             h_goals += season.h_goals
             h_conceded += season.h_concede
 
+            h_shots_for += season.h_shots_for
+            h_shots_against += season.h_shots_against
+            h_sot_for += season.h_sot_for
+            h_sot_against += season.h_sot_against
+            h_corners_for += season.h_corners_for
+            h_corners_against += season.h_corners_against
+            h_fouls_for += season.h_fouls_for
+            h_fouls_against += season.h_fouls_against
+            h_reds += season.h_reds
+            h_yellows += season.h_yellows
+
             a_goals_list += season.a_goals_list
             a_concede_list += season.a_concede_list
             a_games += season.a_games
@@ -217,6 +296,17 @@ class Teamstats:
             a_draws += season.a_draws
             a_goals += season.a_goals
             a_conceded += season.a_concede
+
+            a_shots_for += season.a_shots_for
+            a_shots_against += season.a_shots_against
+            a_sot_for += season.a_sot_for
+            a_sot_against += season.a_sot_against
+            a_corners_for += season.a_corners_for
+            a_corners_against += season.a_corners_against
+            a_fouls_for += season.a_fouls_for
+            a_fouls_against += season.a_fouls_against
+            a_reds += season.a_reds
+            a_yellows += season.a_yellows
 
         h_win_pct = h_wins/h_games if h_games > 0 else 0
         a_win_pct = a_wins/a_games if a_games > 0 else 0
@@ -238,12 +328,32 @@ class Teamstats:
             "h_concede_avg": h_concede_avg,
             "h_goals_std": h_goals_std,
             "h_concede_std": h_concede_std,
+            "h_shots_for": h_shots_for,
+            "h_shots_against": h_shots_against,
+            "h_sot_for": h_sot_for,
+            "h_sot_against": h_sot_against,
+            "h_corners_for": h_corners_for,
+            "h_corners_against": h_corners_against,
+            "h_fouls_for": h_fouls_for,
+            "h_fouls_against": h_fouls_against,
+            "h_reds": h_reds,
+            "h_yellows": h_yellows,
             "a_win_pct": a_win_pct,
             "a_draw_pct": a_draw_pct,
             "a_goals_avg": a_goals_avg,
             "a_concede_avg": a_concede_avg,
             "a_goals_std": a_goals_std,
-            "a_concede_std": a_concede_std
+            "a_concede_std": a_concede_std,
+            "a_shots_for": a_shots_for,
+            "a_shots_against": a_shots_against,
+            "a_sot_for": a_sot_for,
+            "a_sot_against": a_sot_against,
+            "a_corners_for": a_corners_for,
+            "a_corners_against": a_corners_against,
+            "a_fouls_for": a_fouls_for,
+            "a_fouls_against": a_fouls_against,
+            "a_reds": a_reds,
+            "a_yellows": a_yellows
         }
 
         return output

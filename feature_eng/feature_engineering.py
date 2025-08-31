@@ -238,6 +238,31 @@ def featureengineer(df, options = ""):
             "away_h_concede_std": away_historical.get("h_concede_std", 0),
             "away_a_concede_std": away_historical.get("a_concede_std", 0),
 
+            #historical strength additions
+            #home team
+            "home_h_shots_for": home_historical.get("h_shots_for", 0),
+            "home_h_shots_against": home_historical.get("h_shots_against", 0),
+            "home_h_sot_for": home_historical.get("h_sot_for", 0),
+            "home_h_sot_against": home_historical.get("h_sot_against", 0),
+            "home_h_corners_for": home_historical.get("h_corners_for", 0),
+            "home_h_corners_against": home_historical.get("h_corners_against", 0),
+            "home_h_fouls_for": home_historical.get("h_fouls_for", 0),
+            "home_h_fouls_against": home_historical.get("h_fouls_against", 0),
+            "home_h_reds": home_historical.get("h_reds", 0),
+            "home_h_yellows": home_historical.get("h_yellows", 0),
+
+            #away team
+            "away_h_shots_for": away_historical.get("h_shots_for", 0),
+            "away_h_shots_against": away_historical.get("h_shots_against", 0),
+            "away_h_sot_for": away_historical.get("h_sot_for", 0),
+            "away_h_sot_against": away_historical.get("h_sot_against", 0),
+            "away_h_corners_for": away_historical.get("h_corners_for", 0),
+            "away_h_corners_against": away_historical.get("h_corners_against", 0),
+            "away_h_fouls_for": away_historical.get("h_fouls_for", 0),
+            "away_h_fouls_against": away_historical.get("h_fouls_against", 0),
+            "away_h_reds": away_historical.get("h_reds", 0),
+            "away_h_yellows": away_historical.get("h_yellows", 0),
+
             #Current Form
             #home team
             "home_win_pct": home_form.get("win_pct"),
@@ -315,11 +340,15 @@ def featureengineer(df, options = ""):
 
         # Update after appending
         team_dict[home_team].add_game(
-            goals_for=home_goals, goals_against=away_goals, result=result_home, status="H", date=date
+            goals_for=home_goals, goals_against=away_goals, shots_for=row['HS'], shots_against=row['AS'],
+            sot_for=row['HST'], sot_against=row['AST'], corners_for=row['HC'], corners_against=row['AC'],
+            fouls_for=row['HF'], fouls_against=row['AF'], reds=row['HR'], yellows=row['HY'], result=result_home, status="H", date=date
         )
 
         team_dict[away_team].add_game(
-            goals_for=away_goals, goals_against=home_goals, result=result_away, status="A", date=date
+            goals_for=away_goals, goals_against=home_goals, shots_for=row['AS'], shots_against=row['HS'],
+            sot_for=row['AST'], sot_against=row['HST'], corners_for=row['AC'], corners_against=row['HC'],
+            fouls_for=row['AF'], fouls_against=row['HF'], reds=row['AR'], yellows=row['AY'], result=result_away, status="A", date=date
         )
 
         current_round = max(team_dict[home_team].games, team_dict[away_team].games)
