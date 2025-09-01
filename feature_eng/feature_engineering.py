@@ -240,28 +240,27 @@ def featureengineer(df, options = ""):
 
             #historical strength additions
             #home team
-            "home_h_shots_for": home_historical.get("h_shots_for", 0),
-            "home_h_shots_against": home_historical.get("h_shots_against", 0),
-            "home_h_sot_for": home_historical.get("h_sot_for", 0),
-            "home_h_sot_against": home_historical.get("h_sot_against", 0),
-            "home_h_corners_for": home_historical.get("h_corners_for", 0),
-            "home_h_corners_against": home_historical.get("h_corners_against", 0),
-            "home_h_fouls_for": home_historical.get("h_fouls_for", 0),
-            "home_h_fouls_against": home_historical.get("h_fouls_against", 0),
-            "home_h_reds": home_historical.get("h_reds", 0),
-            "home_h_yellows": home_historical.get("h_yellows", 0),
-
+            "h_shots_per": home_historical.get("h_shots_per", 0),
+            "h_shots_against_per": home_historical.get("h_shots_against_per", 0),
+            "h_sot_per": home_historical.get("h_sot_per", 0),
+            "h_sot_against_per": home_historical.get("h_sot_against_per", 0),
+            "h_corners_per": home_historical.get("h_corners_per", 0),
+            "h_corners_against_per": home_historical.get("h_corners_against_per", 0),
+            "h_fouls_per": home_historical.get("h_fouls_per", 0),
+            "h_fouls_against_per": home_historical.get("h_fouls_against_per", 0),
+            "h_reds_per": home_historical.get("h_reds_per", 0),
+            "h_yellows_per": home_historical.get("h_yellows_per", 0),
             #away team
-            "away_h_shots_for": away_historical.get("h_shots_for", 0),
-            "away_h_shots_against": away_historical.get("h_shots_against", 0),
-            "away_h_sot_for": away_historical.get("h_sot_for", 0),
-            "away_h_sot_against": away_historical.get("h_sot_against", 0),
-            "away_h_corners_for": away_historical.get("h_corners_for", 0),
-            "away_h_corners_against": away_historical.get("h_corners_against", 0),
-            "away_h_fouls_for": away_historical.get("h_fouls_for", 0),
-            "away_h_fouls_against": away_historical.get("h_fouls_against", 0),
-            "away_h_reds": away_historical.get("h_reds", 0),
-            "away_h_yellows": away_historical.get("h_yellows", 0),
+            "a_shots_per": away_historical.get("a_shots_per", 0),
+            "a_shots_against_per": away_historical.get("a_shots_against_per", 0),
+            "a_sot_per": away_historical.get("a_sot_per", 0),
+            "a_sot_against_per": away_historical.get("a_sot_against_per", 0),
+            "a_corners_per": away_historical.get("a_corners_per", 0),
+            "a_corners_against_per": away_historical.get("a_corners_against_per", 0),
+            "a_fouls_per": away_historical.get("a_fouls_per", 0),
+            "a_fouls_against_per": away_historical.get("a_fouls_against_per", 0),
+            "a_reds_per": away_historical.get("a_reds_per", 0),
+            "a_yellows_per": away_historical.get("a_yellows_per", 0),
 
             #Current Form
             #home team

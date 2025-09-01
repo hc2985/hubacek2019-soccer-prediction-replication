@@ -20,11 +20,26 @@ def preprocess_scaling(file_name = ""):
         feat_df = pd.read_csv(file_name)
 
     #Split data
-    X_train, y_train, X_modern_train, y_modern_train, X_test, y_test = data_split(feat_df)
+    X_train, y_train, X_val, y_val, X_test, y_test = data_split(feat_df)
     #Scale data
-    X_train_scaled, X_modern_scaled, X_test_scaled = data_scale(X_train, X_modern_train, X_test)
+    X_train_scaled, X_val_scaled, X_test_scaled = data_scale(X_train, X_val, X_test)
 
-    return X_train_scaled, y_train, X_modern_scaled, y_modern_train, X_test_scaled, y_test
+    return X_train_scaled, y_train, X_val_scaled, y_val, X_test_scaled, y_test
+
+def preprocess(file_name = ""):
+    #Full process of preprocessing without scaling
+    if file_name == "":
+        #Load Data
+        combined_df = data_combine()
+        #Feature engineering
+        feat_df = featureengineer(combined_df, options="save")   
+    else:
+        feat_df = pd.read_csv(file_name)
+
+    #Split data
+    X_train, y_train, X_val, y_val, X_test, y_test = data_split(feat_df)
+
+    return X_train, y_train, X_val, y_val, X_test, y_test
 
 def rps(probs, outcome_onehot):
     probs = np.asarray(probs)

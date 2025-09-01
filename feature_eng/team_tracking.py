@@ -277,7 +277,7 @@ class Teamstats:
             h_draws += season.h_draws
             h_goals += season.h_goals
             h_conceded += season.h_concede
-
+            #additions
             h_shots_for += season.h_shots_for
             h_shots_against += season.h_shots_against
             h_sot_for += season.h_sot_for
@@ -296,7 +296,7 @@ class Teamstats:
             a_draws += season.a_draws
             a_goals += season.a_goals
             a_conceded += season.a_concede
-
+            #additions
             a_shots_for += season.a_shots_for
             a_shots_against += season.a_shots_against
             a_sot_for += season.a_sot_for
@@ -321,6 +321,38 @@ class Teamstats:
         h_concede_std = np.std(h_concede_list) if h_concede_list else 0
         a_concede_std = np.std(a_concede_list) if a_concede_list else 0
 
+        h_shots_per = h_shots_for/h_games if h_games > 0 else 0
+        h_shots_against_per = h_shots_against/h_games if h_games > 0 else 0
+        h_sot_per = h_sot_for/h_games if h_games > 0 else 0
+        h_sot_against_per = h_sot_against/h_games if h_games > 0 else 0
+        h_corners_per = h_corners_for/h_games if h_games > 0 else 0
+        h_corners_against_per = h_corners_against/h_games if h_games > 0 else 0
+        h_fouls_per = h_fouls_for/h_games if h_games > 0 else 0
+        h_fouls_against_per = h_fouls_against/h_games if h_games > 0 else 0
+        h_reds_per = h_reds/h_games if h_games > 0 else 0
+        h_yellows_per = h_yellows/h_games if h_games > 0 else 0
+
+        h_shots_diff = (h_shots_for - h_shots_against)/h_games if h_games > 0 else 0
+        h_sot_diff = (h_sot_for - h_sot_against)/h_games if h_games > 0 else 0
+        h_corners_diff = (h_corners_for - h_corners_against)/h_games if h_games > 0 else 0
+        h_fouls_diff = (h_fouls_for - h_fouls_against)/h_games if h_games > 0 else 0
+
+        a_shots_per = a_shots_for/a_games if a_games > 0 else 0
+        a_shots_against_per = a_shots_against/a_games if a_games > 0 else 0
+        a_sot_per = a_sot_for/a_games if a_games > 0 else 0
+        a_sot_against_per = a_sot_against/a_games if a_games > 0 else 0
+        a_corners_per = a_corners_for/a_games if a_games > 0 else 0
+        a_corners_against_per = a_corners_against/a_games if a_games > 0 else 0
+        a_fouls_per = a_fouls_for/a_games if a_games > 0 else 0
+        a_fouls_against_per = a_fouls_against/a_games if a_games > 0 else 0
+        a_reds_per = a_reds/a_games if a_games > 0 else 0
+        a_yellows_per = a_yellows/a_games if a_games > 0 else 0
+
+        a_shots_diff = (a_shots_for - a_shots_against)/a_games if a_games > 0 else 0
+        a_sot_diff = (a_sot_for - a_sot_against)/a_games if a_games > 0 else 0
+        a_corners_diff = (a_corners_for - a_corners_against)/a_games if a_games > 0 else 0
+        a_fouls_diff = (a_fouls_for - a_fouls_against)/a_games if a_games > 0 else 0
+
         output = {
             "h_win_pct": h_win_pct,
             "h_draw_pct": h_draw_pct,
@@ -328,32 +360,41 @@ class Teamstats:
             "h_concede_avg": h_concede_avg,
             "h_goals_std": h_goals_std,
             "h_concede_std": h_concede_std,
-            "h_shots_for": h_shots_for,
-            "h_shots_against": h_shots_against,
-            "h_sot_for": h_sot_for,
-            "h_sot_against": h_sot_against,
-            "h_corners_for": h_corners_for,
-            "h_corners_against": h_corners_against,
-            "h_fouls_for": h_fouls_for,
-            "h_fouls_against": h_fouls_against,
-            "h_reds": h_reds,
-            "h_yellows": h_yellows,
             "a_win_pct": a_win_pct,
             "a_draw_pct": a_draw_pct,
             "a_goals_avg": a_goals_avg,
             "a_concede_avg": a_concede_avg,
             "a_goals_std": a_goals_std,
             "a_concede_std": a_concede_std,
-            "a_shots_for": a_shots_for,
-            "a_shots_against": a_shots_against,
-            "a_sot_for": a_sot_for,
-            "a_sot_against": a_sot_against,
-            "a_corners_for": a_corners_for,
-            "a_corners_against": a_corners_against,
-            "a_fouls_for": a_fouls_for,
-            "a_fouls_against": a_fouls_against,
-            "a_reds": a_reds,
-            "a_yellows": a_yellows
+            #additions
+            "h_shots_per": h_shots_per,
+            "h_shots_against_per": h_shots_against_per,
+            "h_sot_per": h_sot_per,
+            "h_sot_against_per": h_sot_against_per,
+            "h_corners_per": h_corners_per,
+            "h_corners_against_per": h_corners_against_per, 
+            "h_fouls_per": h_fouls_per,
+            "h_fouls_against_per": h_fouls_against_per,
+            "h_reds_per": h_reds_per,
+            "h_yellows_per": h_yellows_per,
+            "a_shots_per": a_shots_per,
+            "a_shots_against_per": a_shots_against_per,
+            "a_sot_per": a_sot_per,
+            "a_sot_against_per": a_sot_against_per,
+            "a_corners_per": a_corners_per,
+            "a_corners_against_per": a_corners_against_per,
+            "a_fouls_per": a_fouls_per,
+            "a_fouls_against_per": a_fouls_against_per,
+            "a_reds_per": a_reds_per,
+            "a_yellows_per": a_yellows_per,
+            "h_shots_diff": h_shots_diff,
+            "h_sot_diff": h_sot_diff,
+            "h_corners_diff": h_corners_diff,
+            "h_fouls_diff": h_fouls_diff,
+            "a_shots_diff": a_shots_diff,
+            "a_sot_diff": a_sot_diff,
+            "a_corners_diff": a_corners_diff,
+            "a_fouls_diff": a_fouls_diff
         }
 
         return output

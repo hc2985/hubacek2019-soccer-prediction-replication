@@ -6,9 +6,9 @@ def data_split(df, use_case="train"):
         date = pd.to_datetime(df['Date'], dayfirst=False, yearfirst=True, errors='coerce')
         cols = df.columns.drop(['Date','Home_Team','Away_Team', 'Match_Result'])
 
-        mask_train = (date >= '2000-08-01') & (date < '2018 -08-01')
-        mask_val =  (date >= '2018-08-01') & (date < '2023-08-01')
-        mask_test = (date >= '2023-08-01') & (date < '2025-08-01')
+        mask_train = (date >= '2000-08-01') & (date < '2018-08-01')
+        mask_val =  (date >= '2018-08-01') & (date < '2022-08-01')
+        mask_test = (date >= '2022-08-01') & (date < '2025-08-01')
 
         train_df = df.loc[mask_train]
         val_df = df.loc[mask_val]

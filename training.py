@@ -1,9 +1,9 @@
 #utility functions
-from util.util import preprocess_scaling, rps, one_hot_y, eval
+from util.util import preprocess, rps, one_hot_y, eval
 from models.xgboost import xgb_no_cv_reg, predict_with_beta
 from modelstorage.modelstorage import savemodel, loadmodel, load_all_models
 
-X_train_scaled, y_train, X_val_scaled, y_val, X_test_scaled, y_test = preprocess_scaling()
+X_train_scaled, y_train, X_val_scaled, y_val, X_test_scaled, y_test = preprocess()
 
 xgb_clf = xgb_no_cv_reg(X_train_scaled, y_train, X_val_scaled, y_val)
 
