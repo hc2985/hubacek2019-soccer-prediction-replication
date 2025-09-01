@@ -1,23 +1,13 @@
 #utility functions
-from util.util import preprocess_scaling, rps, one_hot_y, eval
-from models.xgboost import xgb_no_cv_reg, predict_with_beta
-from modelstorage.modelstorage import savemodel, loadmodel, load_all_models
+from util.util import splits_pipeline
+import joblib
+import os
 
-X_train_scaled, y_train, X_val_scaled, y_val, X_test_scaled, y_test = preprocess_scaling()
+results = splits_pipeline()
 
-xgb_clf = xgb_no_cv_reg(X_train_scaled, y_train, X_val_scaled, y_val)
-
-predictions = predict_with_beta(xgb_clf, X_train_scaled, y_train, X_test_scaled)
-
-y_test_onehot = one_hot_y(y_test)
-
-test_rps = rps(predictions, y_test_onehot)
-
-eval(predictions, y_test)
-
-print(f"Test RPS Score: {test_rps:.4f}")
-
-savemodel({"2017_challenge_winner": xgb_clf})
+for season, test_rps, accuracy, f1, neg_log_loss, brier in results:
+    print(f"Season: {season}, Test RPS Score: {test_rps:.4f}, Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}, Neg Log Loss: {neg_log_loss:.4f}, Brier Score: {brier:.4f}")
 
 
+joblib.dump(results, os.path.join("modelstorage", f"results_original.joblib"))
 

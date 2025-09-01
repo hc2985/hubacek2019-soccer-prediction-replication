@@ -1,16 +1,15 @@
 from preprocessing.data_combine import data_combine
-from preprocessing.data_split import data_split
-from preprocessing.data_scale import data_scale
+from preprocessing.data_split import data_split, get_splits
 from feature_eng.feature_engineering import featureengineer
 from scipy.stats import beta
+from models.xgboost import xgb_cv
 from sklearn.metrics import accuracy_score, f1_score, log_loss, brier_score_loss
 import pandas as pd
 import numpy as np
 
 
-def preprocess_scaling(file_name = ""):
-    #Full process of preprocessing and scaling
-
+def preprocess(file_name = ""):
+    #Full process of preprocessing and without scaling
     if file_name == "":
         #Load Data
         combined_df = data_combine()
@@ -21,10 +20,33 @@ def preprocess_scaling(file_name = ""):
 
     #Split data
     X_train, y_train, X_modern_train, y_modern_train, X_test, y_test = data_split(feat_df)
-    #Scale data
-    X_train_scaled, X_modern_scaled, X_test_scaled = data_scale(X_train, X_modern_train, X_test)
 
-    return X_train_scaled, y_train, X_modern_scaled, y_modern_train, X_test_scaled, y_test
+    return X_train, y_train, X_modern_train, y_modern_train, X_test, y_test
+
+def splits_pipeline(file_name = ""):
+    #Full process of preprocessing and without scaling
+    if file_name == "":
+        #Load Data
+        combined_df = data_combine()
+        #Feature engineering
+        feat_df = featureengineer(combined_df, options="save")   
+    else:
+        feat_df = pd.read_csv(file_name)
+
+    #store results
+    results = []
+
+    #Split data
+    splits = get_splits(feat_df)
+
+    for season, X_train, y_train, X_test, y_test in splits:
+        clf = xgb_cv(X_train, y_train)
+        y_test_onehot = one_hot_y(y_test)
+        predictions = predict_with_beta(clf, X_train, y_train, X_test)
+        test_rps = rps(predictions, y_test_onehot)
+        accuracy, f1, neg_log_loss, brier = eval(predictions, y_test)
+        results.append((season, test_rps, accuracy, f1, neg_log_loss, brier))
+    return results
 
 def rps(probs, outcome_onehot):
     probs = np.asarray(probs)
@@ -72,3 +94,10 @@ def eval(proba, y_test):
     neg_log_loss = -log_loss(y_test, proba)
     brier = brier_score_loss(y_test, proba)
     print(f"Accuracy: {accuracy:.4f}, F1 Score: {f1:.4f}, Neg log Loss: {neg_log_loss:.4f}, brier: {brier:.4f}")
+    return accuracy, f1, neg_log_loss, brier
+
+def predict_with_beta(model, X_train, y_train, X_test):
+    r_train = np.clip(model.predict(X_train) / 2.0, 0, 1)
+    r_test = np.clip(model.predict(X_test) / 2.0, 0, 1)
+    probs_test = beta_dist(r_train, y_train, r_test)
+    return probs_test
