@@ -1,13 +1,16 @@
 #utility functions
 from util.util import preprocess, rps, one_hot_y, eval
 from models.xgboost import xgb_no_cv_reg, predict_with_beta
+from models.catboost import catboost_no_cv_reg
 from modelstorage.modelstorage import savemodel, loadmodel, load_all_models
 
 X_train_scaled, y_train, X_val_scaled, y_val, X_test_scaled, y_test = preprocess()
 
-xgb_clf = xgb_no_cv_reg(X_train_scaled, y_train, X_val_scaled, y_val)
+#xgb_clf = xgb_no_cv_reg(X_train_scaled, y_train, X_val_scaled, y_val)
+cat_clf = catboost_no_cv_reg(X_train_scaled, y_train, X_val_scaled, y_val)
 
-predictions = predict_with_beta(xgb_clf, X_train_scaled, y_train, X_test_scaled)
+#predictions = predict_with_beta(xgb_clf, X_train_scaled, y_train, X_test_scaled)
+predictions = predict_with_beta(cat_clf, X_train_scaled, y_train, X_test_scaled) 
 
 y_test_onehot = one_hot_y(y_test)
 
@@ -17,7 +20,7 @@ eval(predictions, y_test)
 
 print(f"Test RPS Score: {test_rps:.4f}")
 
-savemodel({"2017_challenge_winner": xgb_clf})
+savemodel({"modified_cat_version": cat_clf})
 
 
 
