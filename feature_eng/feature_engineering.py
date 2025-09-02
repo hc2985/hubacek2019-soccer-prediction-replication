@@ -163,6 +163,7 @@ def featureengineer(df, options = ""):
         month = date.month
 
         if not prevmonth or new_season_check(date, prev_date):
+            season = date.year
             new_season()
             current_round = 1
             for team in team_dict.values():
@@ -329,6 +330,7 @@ def featureengineer(df, options = ""):
 
             #others
             'Date': date,
+            'Season': season,
             'Home_Team': home_team,
             'Away_Team': away_team,
             'Match_Result': result_home

@@ -4,24 +4,24 @@ def data_split(df, use_case="train"):
     #split data into train, validation and test sets based on date
     if use_case == "train":
         date = pd.to_datetime(df['Date'], dayfirst=False, yearfirst=True, errors='coerce')
-        cols = df.columns.drop(['Date','Home_Team','Away_Team', 'Match_Result'])
+        cols = df.columns.drop(['Date','Home_Team','Away_Team', 'Match_Result', 'Season'])
 
-        mask_train = (date >= '2000-08-01') & (date < '2018-08-01')
-        mask_val =  (date >= '2018-08-01') & (date < '2022-08-01')
-        mask_test = (date >= '2022-08-01') & (date < '2025-08-01')
+        mask_train = (date >= '2000-08-01') & (date < '2018 -08-01')
+        mask_val =  (date >= '2018-08-01') & (date < '2023-08-01')
+        mask_test = (date >= '2023-08-01') & (date < '2025-08-01')
 
         train_df = df.loc[mask_train]
         val_df = df.loc[mask_val]
         test_df = df.loc[mask_test]
 
         y_train = train_df.pop('Match_Result').values
-        X_train = train_df.drop(columns=['Date','Home_Team','Away_Team']).values
+        X_train = train_df.drop(columns=['Date','Home_Team','Away_Team','Season']).values
 
         y_val = val_df.pop('Match_Result').values
-        X_val = val_df.drop(columns=['Date','Home_Team','Away_Team']).values
+        X_val = val_df.drop(columns=['Date','Home_Team','Away_Team','Season']).values
 
         y_test = test_df.pop('Match_Result').values
-        X_test = test_df.drop(columns=['Date','Home_Team','Away_Team']).values
+        X_test = test_df.drop(columns=['Date','Home_Team','Away_Team','Season']).values
 
         X_train = pd.DataFrame(X_train, columns=cols)
         X_val = pd.DataFrame(X_val, columns=cols)
@@ -36,3 +36,28 @@ def data_split(df, use_case="train"):
         X_display = pd.DataFrame(display_df)
 
         return X_display
+
+def get_splits(df):
+    cols = df.columns.drop(['Date','Home_Team','Away_Team', 'Match_Result','Season'])
+    seasons = sorted(df['Season'].unique())
+
+    splits = []
+
+    for i in range(15, len(seasons)):
+        train_seasons = seasons[:i]
+        test_season = seasons[i]
+        train_df = df[df['Season'].isin(train_seasons)]
+        test_df = df[df['Season'] == test_season]
+
+        y_train = train_df['Match_Result'].values
+        X_train = train_df.drop(columns=['Date','Home_Team','Away_Team','Match_Result','Season']).values
+
+        y_test = test_df['Match_Result'].values
+        X_test = test_df.drop(columns=['Date','Home_Team','Away_Team','Match_Result','Season']).values
+
+        X_train = pd.DataFrame(X_train, columns=cols)
+        X_test = pd.DataFrame(X_test, columns=cols)
+
+        splits.append((seasons[i], X_train, y_train, X_test, y_test))
+
+    return splits
