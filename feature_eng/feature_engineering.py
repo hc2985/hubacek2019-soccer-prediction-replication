@@ -239,6 +239,7 @@ def featureengineer(df, options = ""):
             "away_h_concede_std": away_historical.get("h_concede_std", 0),
             "away_a_concede_std": away_historical.get("a_concede_std", 0),
             
+            
             #historical strength additions
             #home team
             "h_shots_per": home_historical.get("h_shots_per", 0),
@@ -263,6 +264,7 @@ def featureengineer(df, options = ""):
             "a_reds_per": away_historical.get("a_reds_per", 0),
             "a_yellows_per": away_historical.get("a_yellows_per", 0),
             
+
             #Current Form
             #home team
             "home_win_pct": home_form.get("win_pct"),

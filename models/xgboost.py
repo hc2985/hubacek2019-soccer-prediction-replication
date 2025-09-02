@@ -3,7 +3,6 @@ import numpy as np
 import xgboost as xgb
 from util.metric import rps, one_hot_y
 from sklearn.model_selection import TimeSeriesSplit
-import sys
 from contextlib import redirect_stdout, redirect_stderr
 from io import StringIO
 
@@ -37,12 +36,12 @@ class XGBClassifierWrapper:
         self.n_classes_ = 3
 
     def predict(self, X):
-        """Returns class predictions (0=loss, 1=draw, 2=win)"""
+        #Returns class predictions (0=loss, 1=draw, 2=win)
         probs = self.predict_proba(X)
         return np.argmax(probs, axis=1)
 
     def predict_proba(self, X):
-        """Returns probability matrix with shape (n_samples, 3)"""
+        #Returns probability matrix with shape (n_samples, 3)
         dmat = xgb.DMatrix(X)
         return _predict_at_best(self.booster, dmat)
 

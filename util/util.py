@@ -3,6 +3,7 @@ from preprocessing.data_split import data_split, get_splits
 from feature_eng.feature_engineering import featureengineer
 from util.metric import rps, one_hot_y
 from models.xgboost import xgb_classification
+from models.catboost import catboost_classification
 from sklearn.metrics import accuracy_score, f1_score, log_loss, brier_score_loss
 import pandas as pd
 import numpy as np
@@ -23,7 +24,7 @@ def preprocess(file_name = ""):
 
     return X_train, y_train, X_modern_train, y_modern_train, X_test, y_test
 
-def splits_pipeline(file_name = ""):
+def splits_pipeline(file_name = "", model = "xg"):
     #Full process of preprocessing and without scaling
     if file_name == "":
         #Load Data
@@ -39,7 +40,10 @@ def splits_pipeline(file_name = ""):
     splits = get_splits(feat_df)
     for season, X_train, y_train, X_test, y_test in splits:
         y_test_onehot = one_hot_y(y_test)
-        clf = xgb_classification(X_train, y_train)
+        if model == "xg":
+            clf = xgb_classification(X_train, y_train)
+        elif model == "cat":
+            clf = catboost_classification(X_train, y_train)
         predictions = clf.predict_proba(X_test) 
         test_rps = rps(predictions, y_test_onehot)
         accuracy, f1, neg_log_loss, brier = eval(predictions, y_test)
