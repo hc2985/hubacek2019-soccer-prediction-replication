@@ -31,6 +31,12 @@ The replication **focuses exclusively on the English Premier League**, using pub
 
 ---
 
+### Performance
+
+Detailed results and performance metrics are available in RESULTS.md
+
+---
+
 ### Getting Started
 
 1. Clone this repository.
