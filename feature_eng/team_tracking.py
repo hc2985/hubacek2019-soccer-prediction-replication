@@ -460,5 +460,3 @@ class Teamstats:
     def away_pi(self):
         return self.away_pi
     
-    def edg(self):
-        return self.egd

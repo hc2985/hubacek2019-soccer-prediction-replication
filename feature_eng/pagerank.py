@@ -16,7 +16,6 @@ class PageRank:
     def get_teams(self):
         return self.team_indices
 
-
     def add_match(self, home_team, away_team, result_home):
         if home_team not in self.team_indices:
             self.team_indices[home_team] = len(self.team_indices)
@@ -52,5 +51,4 @@ class PageRank:
             home_game = self.games[idx1, idx2]
             away_point = self.points[idx2, idx1]
             away_game = self.games[idx2, idx1]
-
         return home_point, home_game, away_point, away_game

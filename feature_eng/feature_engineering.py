@@ -17,9 +17,7 @@ combined_games = []
 
 def get_pagerank(combined_index, points, games, home_team, away_team,
                                   restart_prob=0.05, tol=1e-9, max_iter=1000):
-    # fast fail
-    if len(combined_index) == 0:
-        return 0.0, 0.0
+
 
     # build A = points / games (per-cell ratio)
     n = len(combined_index)
@@ -100,21 +98,24 @@ def new_season():
 def combine_matrix():
     combined_index = {}
     for matrix in pagerank_q:
-        for team, idx in matrix.get_teams():
+        for team in matrix.get_teams():
             if team not in combined_index:
                 combined_index[team] = len(combined_index)
     points = np.zeros((len(combined_index), len(combined_index)))
     games = np.zeros((len(combined_index), len(combined_index)))
 
     for matrix in pagerank_q:
-        for team, idx in matrix.get_teams():
-            for other_team, other_idx in matrix.get_teams():
+        for team in matrix.get_teams():
+            idx = matrix.team_indices[team]
+            for other_team in matrix.get_teams():
+                other_idx = matrix.team_indices[other_team]
                 points[combined_index[team], combined_index[other_team]] += matrix.points[idx, other_idx]
                 games[combined_index[team], combined_index[other_team]] += matrix.games[idx, other_idx]
 
     return combined_index, points, games
 
 combined_index, combined_points, combined_games = combine_matrix()
+
 
 def get_league_stats():
     h_avgs = []
@@ -202,7 +203,7 @@ def featureengineer(df, options = ""):
         home_form = team_dict[home_team].get_form(date)
         away_form = team_dict[away_team].get_form(date)
 
-        egd = team_dict[home_team].egd
+        egd = team_dict[home_team].home_pi - team_dict[away_team].away_pi
 
         home_diff = get_ranking(standings_dict[home_team].points, current_round)
         away_diff = get_ranking(standings_dict[away_team].points, current_round)
@@ -238,8 +239,7 @@ def featureengineer(df, options = ""):
             "away_a_goals_std": away_historical.get("a_goals_std", 0),
             "away_h_concede_std": away_historical.get("h_concede_std", 0),
             "away_a_concede_std": away_historical.get("a_concede_std", 0),
-            
-            
+                        
             #historical strength additions
             #home team
             "h_shots_per": home_historical.get("h_shots_per", 0),
@@ -263,7 +263,6 @@ def featureengineer(df, options = ""):
             "a_fouls_against_per": away_historical.get("a_fouls_against_per", 0),
             "a_reds_per": away_historical.get("a_reds_per", 0),
             "a_yellows_per": away_historical.get("a_yellows_per", 0),
-            
 
             #Current Form
             #home team
@@ -289,7 +288,7 @@ def featureengineer(df, options = ""):
             "home_a_rtg": team_dict[home_team].away_pi,
             "away_h_rtg": team_dict[away_team].home_pi,
             "away_a_rtg": team_dict[away_team].away_pi,
-            "EGD": egd,
+            "EGD": team_dict[home_team].home_pi - team_dict[away_team].away_pi,
 
             #Page Rank
             "pagerank_home": pagerank_home,
@@ -358,6 +357,8 @@ def featureengineer(df, options = ""):
 
         season_q[-1].add_game(home_goals, away_goals)
 
+        pagerank_q[-1].add_match(home_team, away_team, result_home)
+
         home_h = team_dict[home_team].home_pi
         away_a = team_dict[away_team].away_pi
         
@@ -373,6 +374,6 @@ def featureengineer(df, options = ""):
     final_features_df = pd.DataFrame(features_list)
 
     if options == "save":
-        final_features_df.to_csv("datasets/2001-2025_processed.csv", index=False)
+        final_features_df.to_csv("datasets/2000-2025_processed.csv", index=False)
 
     return final_features_df
