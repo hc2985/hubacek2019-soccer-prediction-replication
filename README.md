@@ -34,10 +34,10 @@ The replication **focuses exclusively on the English Premier League**, using pub
 ### Getting Started
 
 1. Clone this repository.
-2. Download EPL datasets (CSV) from [football-data.co.uk](https://www.football-data.co.uk/).
+2. Download EPL datasets (CSV) from football-data.co.uk.
 3. Place datasets in the appropriate folder (see code for expected path).
 4. Install dependencies: (list not added yet).
-5. Run preprocessing and model training scripts as needed.
+5. Execute training.py to run the entire replication pipeline in one command.
 
 ---
 
