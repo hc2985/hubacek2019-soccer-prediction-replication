@@ -2,7 +2,7 @@
 
 ### Overview
 
-This project is a **replication of the best-performing XGBoost model** from Hubáček et al. (2018/2019), “Learning to predict soccer results from relational data with gradient boosted trees.”  
+This project is a **modified replication of the best-performing XGBoost model** from Hubáček et al. (2018/2019), “Learning to predict soccer results from relational data with gradient boosted trees.”  
 - [Official paper (Machine Learning, Springer)](https://doi.org/10.1007/s10994-018-5704-6)
 
 The replication **focuses exclusively on the English Premier League**, using public datasets from [football-data.co.uk](https://www.football-data.co.uk/) for the seasons 2000–2025/26.
@@ -12,8 +12,10 @@ The replication **focuses exclusively on the English Premier League**, using pub
 ### Features
 
 - **Full replication** of the paper’s all feature categories + XGBoost approach.
+- CatBoost implementation included, extending beyond the original paper.
 - Adapted to work on **Premier League data only**, though should also work with other single leagues with minimal changes.
 - **Basic dataset preprocessing and loading** for 2000/01–2025/26 EPL matches.
+- Additional engineered features incorporated from the football-data.co.uk datasets.
 - Results can be compared directly to those reported in the original paper.
 
 ---
